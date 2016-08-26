@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by zxc on 2016/8/25.
  */
-public class DispatchThread extends Thread {
+public class TCPMessageDispatcher extends Thread {
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
     private Bus bus = Bus.Singleton.Instance.getInstance();
     @Override

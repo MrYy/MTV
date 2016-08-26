@@ -16,7 +16,7 @@ public class TCPDispatcher implements Dispatcher {
     private static final String TAG = TCPDispatcher.class.getSimpleName();
 
     public TCPDispatcher() {
-        new DispatchThread().start();
+        new TCPMessageDispatcher().start();
     }
     @Override
     public void dispatch(Message msg, InetAddress mClient) {
