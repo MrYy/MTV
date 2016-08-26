@@ -8,6 +8,7 @@ import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
+import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +43,7 @@ public class CellularMore extends Thread {
                 try {
                     URL uurl = new URL(IntegrityCheck.GROUP_TAG + "?filename=" + url
                             + ".mp4&sessionid=" + GroupCell.groupSession +
-                            "&user_name=" + "a" + "&miss=" + miss);
+                            "&user_name=" + Bus.userName + "&miss=" + miss);
 
                     Log.d(TAG, "" + uurl);
                     connection = (HttpURLConnection) uurl.openConnection();

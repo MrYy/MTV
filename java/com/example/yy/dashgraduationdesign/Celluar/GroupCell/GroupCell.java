@@ -7,6 +7,7 @@ import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
+import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +32,7 @@ public class GroupCell extends Thread {
 		try {
 			URL uurl = new URL(IntegrityCheck.GROUP_TAG + "?filename=" + url
 						+ ".mp4&sessionid="+groupSession+
-						 "&user_name=" + "yy");
+						 "&user_name=" + Bus.userName);
 
 			Log.d(TAG, "" + uurl);
 			while (true) {
