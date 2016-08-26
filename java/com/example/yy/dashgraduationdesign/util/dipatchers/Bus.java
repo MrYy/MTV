@@ -62,6 +62,7 @@ public class Bus implements Dispatcher {
     public static ConfigureData configureData = new ConfigureData("http://127.0.0.1:9999/4/index.m3u8");
     public static final BlockingQueue<SendTask> taskMessageQueue = new LinkedBlockingQueue<SendTask>();
     public static final BlockingQueue<SendTask> sendMessageQueue = new LinkedBlockingQueue<SendTask>();
+    //接收到的系统消息
     public static final BlockingQueue<Message> receiveMessageQueue = new LinkedBlockingQueue<Message>();
     public static boolean isOwner = false;
     public static String userName;

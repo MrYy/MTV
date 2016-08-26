@@ -8,6 +8,7 @@ import java.net.InetAddress;
  * Created by zxc on 2016/8/25.
  */
 public interface Dispatcher {
+    //接收到全部封装的消息后，决定如何分发，是否转发等等。
     //分发消息
     void dispatch(com.example.yy.dashgraduationdesign.Entities.Message message, InetAddress mClient);
     //处理消息
