@@ -14,6 +14,10 @@ import java.net.InetAddress;
  */
 public class TCPDispatcher implements Dispatcher {
     private static final String TAG = TCPDispatcher.class.getSimpleName();
+
+    public TCPDispatcher() {
+        new DispatchThread().start();
+    }
     @Override
     public void dispatch(Message msg, InetAddress mClient) {
         Bus.getClients().remove(mClient);
