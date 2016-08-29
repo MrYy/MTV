@@ -7,5 +7,5 @@ import com.example.yy.dashgraduationdesign.Entities.FileFragment;
  */
 public interface CellularPolicy {
     //蜂窝下载一个分片和如何分享策略
-    void handleMessage(FileFragment fragment);
+    void handleFragment(FileFragment fragment);
 }

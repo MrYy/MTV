@@ -3,7 +3,9 @@ package com.example.yy.dashgraduationdesign.Celluar.CellMore;
 import android.util.Log;
 
 
+import com.example.yy.dashgraduationdesign.Celluar.CellularPolicy;
 import com.example.yy.dashgraduationdesign.Celluar.GroupCell.GroupCell;
+import com.example.yy.dashgraduationdesign.Celluar.TCPCellular;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
@@ -18,11 +20,12 @@ import java.net.URL;
 
 public class CellularMore extends Thread {
     private static final String TAG = CellularMore.class.getSimpleName();
-
+    private CellularPolicy policy;
     private int url;
 
     public CellularMore(int url) {
         this.url = url;
+        policy = new TCPCellular();
     }
 
     @Override
@@ -91,6 +94,7 @@ public class CellularMore extends Thread {
                         fm.setData(tmpbuff);
                         IC.insert(url, fm, 0);
                         IC.getSeg(url).checkIntegrity();
+                        policy.handleFragment(fm);
                         break;
                     }
 

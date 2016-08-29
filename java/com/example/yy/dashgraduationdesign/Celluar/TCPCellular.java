@@ -9,7 +9,7 @@ import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
  */
 public class TCPCellular implements CellularPolicy {
     @Override
-    public void handleMessage(FileFragment fm) {
+    public void handleFragment(FileFragment fm) {
         Message msgF = new Message();
         msgF.setFragment(fm);
         Bus.sendMsg(msgF);

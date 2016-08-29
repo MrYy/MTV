@@ -87,7 +87,7 @@ public class GroupCell extends Thread {
 					fm.setData(tmpbuff);
 					IC.insert(url, fm);
 					IC.getSeg(url).checkIntegrity();
-					policy.handleMessage(fm);
+					policy.handleFragment(fm);
 				}
 			}
 		} catch (MalformedURLException e) {
