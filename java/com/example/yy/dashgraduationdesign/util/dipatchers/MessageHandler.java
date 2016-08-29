@@ -7,7 +7,7 @@ import com.example.yy.dashgraduationdesign.Entities.Message;
  */
 public abstract class MessageHandler extends Thread{
     //receive the system command message and then handle them,reflect to the UI
-    //分发系统消息
+    //处理接收到的系统消息，比如打开播放器，要求获取某个分片等等。
     @Override
     public void run() {
         super.run();

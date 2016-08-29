@@ -7,5 +7,6 @@ import com.example.yy.dashgraduationdesign.Entities.FileFragment;
  */
 public interface CellularSharePolicy {
     //蜂窝下载一个分片后如何分享策略
+    //after you download a piece from server,decide how to send to others ,whether or not .
     void handleFragment(FileFragment fragment);
 }
