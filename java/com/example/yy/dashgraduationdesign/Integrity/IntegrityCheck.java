@@ -5,7 +5,10 @@ import android.util.SparseArray;
 
 import com.example.yy.dashgraduationdesign.Celluar.CellularDown;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
+import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
+import com.example.yy.dashgraduationdesign.Entities.SendTask;
+import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
 
 public class IntegrityCheck {
@@ -80,7 +83,6 @@ public class IntegrityCheck {
 		}
 		Segment s = urlMap.get(id);
 		s.insert(fm);
-//		WiFiFactory.insertF(fm);
 	}
 
 	public void insert(int id, FileFragment fm,int n) {

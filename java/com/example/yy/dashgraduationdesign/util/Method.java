@@ -228,7 +228,7 @@ public class Method {
     }
     private static final Bus bus = Bus.Singleton.Instance.getInstance();
     public static void read(SocketChannel mSc) throws MyException {
-        Message msgHeader = Method.readMessage(mSc, 287);
+        Message msgHeader = Method.readMessage(mSc, 306);
         if (msgHeader == null) return;
         Log.d(TAG, "message length:" + msgHeader.getMsgLength());
         Message msg = Method.readMessage(mSc, msgHeader.getMsgLength());

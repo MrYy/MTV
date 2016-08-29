@@ -32,7 +32,7 @@ public class Bus implements Dispatcher {
     //枚举单例模式
     private static Bus instance;
     public static boolean isConnected;
-    private Dispatcher dispatcher = new TCPDispatcher();
+    private Dispatcher dispatcher = new TCPDispatcher(this);
     @Override
     public void dispatch(Message msg, InetAddress mClient) {
         dispatcher.dispatch(msg,mClient);
@@ -48,8 +48,8 @@ public class Bus implements Dispatcher {
         Instance;
 
         Singleton() {
-            new DashProxyServer();
             if (instance == null) instance = new Bus();
+            new DashProxyServer();
             configureData.setWorkingMode(ConfigureData.WorkMode.G_MDOE);
             userName = getRandomString(20);
         }
@@ -66,7 +66,6 @@ public class Bus implements Dispatcher {
     public static final BlockingQueue<Message> receiveMessageQueue = new LinkedBlockingQueue<Message>();
     public static boolean isOwner = false;
     public static String userName;
-    public static final String SYSTEM_MESSAGE_SHARE_LOCAL = "asdfnvlxczvoj3asfpizfj323fsadf[]]adfadsf,./";
     public static final String SYSTEM_MESSAGE_SHARE_NETWORK = "asdfxczv;asfde[asdfqwer324asfd~";
     public static final String SYSTEM_MESSAGE = "asfsadwaasdfxczvasdfqqweqwr~";
     public static final Set<String> onLineUsers = new ConcurrentSkipListSet<>();

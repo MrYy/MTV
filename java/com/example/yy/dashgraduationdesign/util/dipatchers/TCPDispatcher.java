@@ -14,9 +14,9 @@ import java.net.InetAddress;
  */
 public class TCPDispatcher implements Dispatcher {
     private static final String TAG = TCPDispatcher.class.getSimpleName();
-
-    public TCPDispatcher() {
-        new TCPMessageDispatcher().start();
+    private Bus bus;
+    public TCPDispatcher(Bus bus) {
+        new TCPMessageHandler(bus).start();
     }
     @Override
     public void dispatch(Message msg, InetAddress mClient) {

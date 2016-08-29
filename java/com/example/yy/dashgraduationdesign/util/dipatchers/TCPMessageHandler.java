@@ -11,36 +11,25 @@ import java.util.concurrent.Executors;
 /**
  * Created by zxc on 2016/8/25.
  */
-public class TCPMessageDispatcher extends MessageDipatcher {
+public class TCPMessageHandler extends MessageHandler {
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
-    private Bus bus = Bus.Singleton.Instance.getInstance();
+    private Bus bus;
+    public TCPMessageHandler(Bus bus) {
+        this.bus = bus;
+    }
     @Override
     void handleMessage(Message message) {
-        if(message!=null) {
+        if (message != null) {
             Log.d("ChatFragment", "receive message:" + String.valueOf(message.getMessage()));
             String msgR = message.getMessage();
-            if (msgR.equals(Bus.SYSTEM_MESSAGE_SHARE_LOCAL)) {
+            if (msgR.startsWith(Bus.SYSTEM_MESSAGE_SHARE_NETWORK)) {
                 android.os.Message msg = new android.os.Message();
                 msg.what = 1;
-                bus.handle(msg);
-//                    threadPool.execute(this);
-                return;
-            } else if (msgR.startsWith(Bus.SYSTEM_MESSAGE_SHARE_NETWORK)) {
-                android.os.Message msg = new android.os.Message();
-                msg.what = 2;
                 String[] infos = msgR.split("~");
                 msg.obj = infos[1];
                 GroupCell.groupSession = infos[2];
                 bus.handle(msg);
 //                    threadPool.execute(this);
-                return;
-            } else if (msgR.startsWith(Bus.SYSTEM_MESSAGE)) {
-                android.os.Message msg = new android.os.Message();
-                msg.what = 4;
-                msg.obj = msgR.split("~")[1];
-                bus.handle(msg);
-//                    threadPool.execute(this);
-                return;
             }
         }
 

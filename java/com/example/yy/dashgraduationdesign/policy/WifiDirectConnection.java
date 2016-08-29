@@ -75,13 +75,13 @@ public class WifiDirectConnection implements ConnectionPolicy {
 
     private void registerBroadcast() {
         if(isRegistered) return;
-        context.registerReceiver(wiFiDirectBroadcastReceiver, wifiServerReceiverIntentFilter);
+        context.getApplicationContext().registerReceiver(wiFiDirectBroadcastReceiver, wifiServerReceiverIntentFilter);
         isRegistered = true;
     }
 
     private void unregisterBroadcast() {
         if(!isRegistered) return;
-        context.unregisterReceiver(wiFiDirectBroadcastReceiver);
+        context.getApplicationContext().unregisterReceiver(wiFiDirectBroadcastReceiver);
         isRegistered = false;
     }
 }
