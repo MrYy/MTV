@@ -81,7 +81,7 @@ public class ServerThread extends Thread {
                             String mName = iterator.next();
                             nameMsg.setName(mName);
                             nameMsg.setMessage(mName);
-                            Bus.sendMsg(nameMsg);
+                            Bus.sendMsgToAll(nameMsg);
                         }
                     } else if (mKey.isReadable()) {
                         SocketChannel mSc = (SocketChannel) mKey.channel();

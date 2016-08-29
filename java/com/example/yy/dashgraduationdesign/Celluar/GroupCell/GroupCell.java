@@ -3,8 +3,8 @@ package com.example.yy.dashgraduationdesign.Celluar.GroupCell;
 import android.util.Log;
 
 
-import com.example.yy.dashgraduationdesign.Celluar.CellularPolicy;
-import com.example.yy.dashgraduationdesign.Celluar.TCPCellular;
+import com.example.yy.dashgraduationdesign.Celluar.CellularSharePolicy;
+import com.example.yy.dashgraduationdesign.Celluar.TCPShare;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
@@ -21,11 +21,11 @@ public class GroupCell extends Thread {
 	private static final String TAG = GroupCell.class.getSimpleName();
 	private int url;
 	public static String groupSession;
-	private CellularPolicy policy;
+	private CellularSharePolicy policy;
 	public GroupCell(int url) {
 		super();
 		this.url = url;
-		policy = new TCPCellular();
+		policy = new TCPShare();
 	}
 
 	@Override

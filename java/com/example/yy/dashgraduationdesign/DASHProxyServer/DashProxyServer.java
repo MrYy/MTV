@@ -4,7 +4,9 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.example.yy.dashgraduationdesign.Celluar.CellularDown;
+import com.example.yy.dashgraduationdesign.Celluar.CellularDownPolicy;
 import com.example.yy.dashgraduationdesign.Celluar.GroupCell.GroupCell;
+import com.example.yy.dashgraduationdesign.Celluar.TCPDown;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
@@ -30,6 +32,7 @@ import fi.iki.elonen.NanoHTTPD;
 public class DashProxyServer extends NanoHTTPD {
 	private static final String TAG = DashProxyServer.class.getSimpleName();
 	public static final String SERVER_ADDR = "http://yyzwt.cn:12345/dash";
+	private CellularDownPolicy downPolicy = new TCPDown();
 	public DashProxyServer() {
 		super(9999);
 		try {
@@ -99,7 +102,7 @@ public class DashProxyServer extends NanoHTTPD {
 					GroupCell.groupSession = groupSession;
 					Log.d("TAG", "group session is :" + groupSession);
 					Log.d("TAG", msg.getMessage());
-					Bus.sendMsg(msg);
+					Bus.sendMsgToAll(msg);
 				}
 				return downloadM3U8(session.getUri());
 
@@ -112,11 +115,8 @@ public class DashProxyServer extends NanoHTTPD {
 					return newFixedLengthResponse(Response.Status.OK,
 							"application/x-mpegurl", IntegrityCheck.getInstance().getSegments(com.example.yy.dashgraduationdesign.util.Method.LOCAL_VIDEO_SEGID));
 				case G_MDOE:
-					IntegrityCheck iTC = IntegrityCheck.getInstance();
-					int tmpp = Integer.parseInt(playist.substring(0, 1));
-					byte[] tmp = iTC.getSegments(tmpp, CellularDown.CellType.GROUP);
-					return newFixedLengthResponse(Response.Status.OK,
-							"application/x-mpegurl", tmp);
+					return newFixedLengthResponse(NanoHTTPD.Response.Status.OK,
+							"application/x-mpegurl", downPolicy.download(playist));
 				default:
 					return newFixedLengthResponse("");
 				}

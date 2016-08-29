@@ -1,6 +1,7 @@
 package com.example.yy.dashgraduationdesign.util.dipatchers;
 
 import android.os.Handler;
+import android.util.ArraySet;
 
 import com.example.yy.dashgraduationdesign.DASHProxyServer.DashProxyServer;
 import com.example.yy.dashgraduationdesign.Entities.ConfigureData;
@@ -73,7 +74,7 @@ public class Bus implements Dispatcher {
     private final static Condition condition = lock.newCondition();
     private static Set<InetAddress> mClients = new HashSet<>();
 
-    public static void sendMsg(Message msg) {
+    public static void sendMsgToAll(Message msg) {
         SendTask sendTask = new SendTask();
         sendTask.setMsg(msg);
         if (isOwner) {
@@ -82,6 +83,14 @@ public class Bus implements Dispatcher {
         sendMessageQueue.add(sendTask);
     }
 
+    public static void sendMsgTo(Message msg, InetAddress address) {
+        SendTask sendTask = new SendTask();
+        Set<InetAddress> sets = new HashSet<>();
+        sets.add(address);
+        sendTask.setClients(sets);
+        sendTask.setMsg(msg);
+        sendMessageQueue.add(sendTask);
+    }
     public static synchronized Set<InetAddress> getClients() {
         return mClients;
     }

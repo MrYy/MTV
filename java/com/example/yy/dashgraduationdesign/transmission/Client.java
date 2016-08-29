@@ -56,7 +56,7 @@ public class Client implements Runnable {
         Message nameMsg = new Message();
         nameMsg.setName(Bus.userName);
         nameMsg.setMessage(Bus.userName);
-        Bus.sendMsg(nameMsg);
+        Bus.sendMsgToAll(nameMsg);
         try {
             sc = SocketChannel.open();
             sc.connect(new InetSocketAddress(remoteAddress.getHostAddress(), remotePort));

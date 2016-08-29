@@ -7,11 +7,11 @@ import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 /**
  * Created by zxc on 2016/8/29.
  */
-public class TCPCellular implements CellularPolicy {
+public class TCPShare implements CellularSharePolicy {
     @Override
     public void handleFragment(FileFragment fm) {
         Message msgF = new Message();
         msgF.setFragment(fm);
-        Bus.sendMsg(msgF);
+        Bus.sendMsgToAll(msgF);
     }
 }
