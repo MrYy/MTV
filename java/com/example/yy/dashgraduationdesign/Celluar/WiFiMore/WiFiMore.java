@@ -7,6 +7,9 @@ import com.example.yy.dashgraduationdesign.Entities.Segment;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 
 public class WiFiMore extends Thread {
 	private static final String TAG = WiFiMore.class.getSimpleName();
@@ -33,7 +36,11 @@ public class WiFiMore extends Thread {
 				Log.v(TAG, "no " + url + " " + miss);
 				Message msg = new Message();
 				msg.setMessage(Bus.SYSTEM_MESSAGE+url+"~"+miss);
-				Bus.sendMsgToAll(msg);
+				try {
+					Bus.sendMsgTo(msg, InetAddress.getByName("192.168.49.1"));
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {

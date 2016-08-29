@@ -14,7 +14,7 @@ public class CellularDown {
 	private static final ExecutorService cachedThreadPool = Executors
 			.newCachedThreadPool();
 
-	public static enum CellType {
+	public  enum CellType {
 		CellMore, WiFiMore, Single, DASH, GROUP, NOCELL
 	}
 
