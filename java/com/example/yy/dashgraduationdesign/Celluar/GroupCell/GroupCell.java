@@ -3,6 +3,7 @@ package com.example.yy.dashgraduationdesign.Celluar.GroupCell;
 import android.util.Log;
 
 
+import com.example.yy.dashgraduationdesign.Celluar.CellularDown;
 import com.example.yy.dashgraduationdesign.Celluar.CellularSharePolicy;
 import com.example.yy.dashgraduationdesign.Celluar.TCPShare;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
@@ -88,6 +89,11 @@ public class GroupCell extends Thread {
 					IC.insert(url, fm);
 					IC.getSeg(url).checkIntegrity();
 					policy.handleFragment(fm);
+				}else if (connection.getResponseCode() == 200) {
+					Log.d(TAG, "else " + url);
+					CellularDown.queryFragment(CellularDown.CellType.CellMore,
+							url);
+					break;
 				}
 			}
 		} catch (MalformedURLException e) {
