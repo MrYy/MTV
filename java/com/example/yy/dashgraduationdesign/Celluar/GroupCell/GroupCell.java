@@ -25,7 +25,6 @@ public class GroupCell extends Thread {
 	public GroupCell(int url) {
 		super();
 		this.url = url;
-		policy = new TCPShare();
 	}
 
 	@Override
