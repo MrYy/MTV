@@ -22,7 +22,6 @@ public class GroupCell extends Thread {
 	private static final String TAG = GroupCell.class.getSimpleName();
 	private int url;
 	public static String groupSession;
-	private CellularSharePolicy policy;
 	public GroupCell(int url) {
 		super();
 		this.url = url;
@@ -88,7 +87,7 @@ public class GroupCell extends Thread {
 					fm.setData(tmpbuff);
 					IC.insert(url, fm);
 					IC.getSeg(url).checkIntegrity();
-					policy.handleFragment(fm);
+					Bus.configureData.getCellularSharePolicy().handleFragment(fm);
 				}else if (connection.getResponseCode() == 200) {
 					Log.d(TAG, "else " + url);
 					CellularDown.queryFragment(CellularDown.CellType.CellMore,

@@ -116,7 +116,7 @@ public class DashProxyServer extends NanoHTTPD {
 							"application/x-mpegurl", IntegrityCheck.getInstance().getSegments(com.example.yy.dashgraduationdesign.util.Method.LOCAL_VIDEO_SEGID));
 				case G_MDOE:
 					return newFixedLengthResponse(NanoHTTPD.Response.Status.OK,
-							"application/x-mpegurl", downPolicy.download(playist));
+							"application/x-mpegurl", Bus.configureData.getCellularDownPolicy().download(playist));
 				default:
 					return newFixedLengthResponse("");
 				}
