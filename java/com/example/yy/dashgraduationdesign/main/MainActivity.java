@@ -57,14 +57,25 @@ public class MainActivity extends AppCompatActivity {
                 connectionPolicy.connect();
                 break;
             case R.id.button_display:
-                if (Bus.isOwner) {
-                    Intent intent = new Intent(MainActivity.this, VideoActivity.class);
-                    intent.putExtra("path", Bus.configureData.getUrl());
-                    Log.d(TAG, "path is:" + Bus.configureData.getUrl());
-                    startActivity(intent);
-                }
+
                 break;
         }
+    }
+
+    private void tcp() {
+        if (Bus.isOwner) {
+            Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+            intent.putExtra("path", Bus.configureData.getUrl());
+            Log.d(TAG, "path is:" + Bus.configureData.getUrl());
+            startActivity(intent);
+        }
+    }
+
+    private void bt() {
+        Intent intent = new Intent(MainActivity.this, VideoActivity.class);
+        intent.putExtra("path", Bus.configureData.getUrl());
+        Log.d(TAG, "path is:" + Bus.configureData.getUrl());
+        startActivity(intent);
     }
 
     @Override

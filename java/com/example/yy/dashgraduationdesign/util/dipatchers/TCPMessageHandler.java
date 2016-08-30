@@ -38,11 +38,12 @@ public class TCPMessageHandler extends MessageHandler {
                 int miss = Integer.parseInt(msgR.split("~")[2]);
                 int url = Integer.parseInt(msgR.split("~")[1]);
                 try {
+                    InetAddress addr = InetAddress.getByName(msgR.split("~")[3]);
                     Message msg = new Message();
                     FileFragment frag = IntegrityCheck.getInstance().getSeg(url).getFragment(miss);
                     if(frag == null) return;
                     msg.setFragment(frag);
-                    Bus.sendMsgTo(msg, InetAddress.getByName("192.168.49.1"));
+                    Bus.sendMsgTo(msg, addr);
                 } catch (FileFragment.FileFragmentException e) {
                     e.printStackTrace();
                 } catch (UnknownHostException e) {

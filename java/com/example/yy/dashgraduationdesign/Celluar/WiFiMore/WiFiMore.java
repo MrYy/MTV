@@ -35,7 +35,7 @@ public class WiFiMore extends Thread {
 				}
 				Log.v(TAG, "no " + url + " " + miss);
 				Message msg = new Message();
-				msg.setMessage(Bus.SYSTEM_MESSAGE+url+"~"+miss);
+				msg.setMessage(Bus.SYSTEM_MESSAGE+url+"~"+miss+"~"+Bus.clientAddr);
 				try {
 					Bus.sendMsgTo(msg, InetAddress.getByName("192.168.49.1"));
 				} catch (UnknownHostException e) {

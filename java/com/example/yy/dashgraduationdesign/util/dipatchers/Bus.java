@@ -76,7 +76,7 @@ public class Bus implements Dispatcher {
     private final static Lock lock = new ReentrantLock();
     private final static Condition condition = lock.newCondition();
     private static Set<InetAddress> mClients = new HashSet<>();
-
+    public static InetAddress clientAddr;
     public static void sendMsgToAll(Message msg) {
         SendTask sendTask = new SendTask();
         sendTask.setMsg(msg);
