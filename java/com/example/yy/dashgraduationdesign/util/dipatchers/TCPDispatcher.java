@@ -13,6 +13,8 @@ import java.net.InetAddress;
  * Created by zxc on 2016/8/26.
  */
 public class TCPDispatcher implements Dispatcher {
+    //it is suitable for BT and TCP now,
+    //because in our first version,BT's seeder can't receive any fragment
     private static final String TAG = TCPDispatcher.class.getSimpleName();
     private Bus bus;
     public TCPDispatcher(Bus bus) {

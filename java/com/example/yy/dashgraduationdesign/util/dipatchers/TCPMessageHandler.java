@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.yy.dashgraduationdesign.Celluar.GroupCell.GroupCell;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
+import com.example.yy.dashgraduationdesign.Entities.Segment;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
 
 import java.net.InetAddress;
@@ -36,18 +37,21 @@ public class TCPMessageHandler extends MessageHandler {
                 bus.handle(msg);
 //                    threadPool.execute(this);
             } else if (msgR.startsWith(Bus.SYSTEM_MESSAGE)) {
+                //only owner can handle this.
+                if(!Bus.isOwner) return;
                 int miss = Integer.parseInt(msgR.split("~")[2]);
                 int url = Integer.parseInt(msgR.split("~")[1]);
                 try {
                     InetAddress addr = InetAddress.getByName(msgR.split("~")[3].substring(1));
                     Message msg = new Message();
-                    FileFragment frag = IntegrityCheck.getInstance().getSeg(url).getFragment(miss);
-                    if(frag == null) {
-                        Log.d(TAG, "no segment,send back to client");
+                    Segment segment = IntegrityCheck.getInstance().getSeg(url);
+                    FileFragment frag;
+                    if(segment == null || (frag = segment.getFragment(miss))==null){
+                        Log.d(TAG, "no fragment,send back to client");
                         msg.setMessage(Bus.SYSYTEM_BT_NO_SEGMENT+url+"~"+miss+"~"+addr);
                         Bus.sendMsgTo(msg,addr);
                         return;
-                    };
+                    }
                     msg.setFragment(frag);
                     Bus.sendMsgTo(msg, addr);
                 } catch (FileFragment.FileFragmentException e) {
@@ -56,6 +60,9 @@ public class TCPMessageHandler extends MessageHandler {
                     e.printStackTrace();
                 }
             } else if (msgR.startsWith(Bus.SYSYTEM_BT_NO_SEGMENT)) {
+                //only client can handle this.
+                if(Bus.isOwner) return;
+                //seeder tells that it doesn't has this segment,the client will fetch it again later while the queue is idle
                 int miss = Integer.parseInt(msgR.split("~")[2]);
                 int url = Integer.parseInt(msgR.split("~")[1]);
                 try {

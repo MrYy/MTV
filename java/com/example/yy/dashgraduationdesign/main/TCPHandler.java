@@ -29,7 +29,6 @@ public class TCPHandler extends Handler {
         switch (msg.what) {
             case 1:
                 Bus.configureData.setWorkingMode(ConfigureData.WorkMode.G_MDOE);
-                Method.display(context,"播主开始推送视频啦");
                 String path = msg.obj.toString();
                 Log.d(TAG, "path is :" + path);
                 Intent intent = new Intent(context, VideoActivity.class);
