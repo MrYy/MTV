@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 connectionPolicy.connect();
                 break;
             case R.id.button_display:
-
+                bt();
                 break;
         }
     }

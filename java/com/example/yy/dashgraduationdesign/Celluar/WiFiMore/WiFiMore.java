@@ -13,9 +13,13 @@ import java.net.UnknownHostException;
 
 public class WiFiMore extends Thread {
 	private static final String TAG = WiFiMore.class.getSimpleName();
-
+	/**
+	 * 这里还需要进行改动，
+	 * wifimore时间间隔太长
+	 * 也会重复发送缺失文件的信息
+	 */
 	private int url;
-
+	private Message nowSend;
 	public WiFiMore(int url) {
 		this.url = url;
 	}
@@ -33,9 +37,13 @@ public class WiFiMore extends Thread {
 					e.printStackTrace();
 					break;
 				}
-				Log.v(TAG, "no " + url + " " + miss);
 				Message msg = new Message();
 				msg.setMessage(Bus.SYSTEM_MESSAGE+url+"~"+miss+"~"+Bus.clientAddr);
+				msg.setCount(miss);
+				if(nowSend !=null)
+					if(nowSend.getCount()==msg.getCount()) continue;
+				nowSend = msg;
+				Log.v(TAG, "no " + url + " " + miss);
 				try {
 					Bus.sendMsgTo(msg, InetAddress.getByName("192.168.49.1"));
 				} catch (UnknownHostException e) {
