@@ -38,7 +38,7 @@ public class TCPMessageHandler extends MessageHandler {
                 int miss = Integer.parseInt(msgR.split("~")[2]);
                 int url = Integer.parseInt(msgR.split("~")[1]);
                 try {
-                    InetAddress addr = InetAddress.getByName(msgR.split("~")[3]);
+                    InetAddress addr = InetAddress.getByName(msgR.split("~")[3].substring(1));
                     Message msg = new Message();
                     FileFragment frag = IntegrityCheck.getInstance().getSeg(url).getFragment(miss);
                     if(frag == null) return;

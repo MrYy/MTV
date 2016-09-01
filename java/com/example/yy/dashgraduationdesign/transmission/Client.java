@@ -66,7 +66,7 @@ public class Client implements Runnable {
                     Toast.makeText(context, "已连接",Toast.LENGTH_SHORT).show();
                 }
             });
-            Bus.clientAddr = sc.socket().getInetAddress();
+            Bus.clientAddr = sc.socket().getLocalAddress();
             sc.configureBlocking(false);
             sc.socket().getTcpNoDelay();
             Selector selector = Selector.open();

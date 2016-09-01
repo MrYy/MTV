@@ -43,7 +43,7 @@ public class WiFiMore extends Thread {
 				if(nowSend !=null)
 					if(nowSend.getCount()==msg.getCount()) continue;
 				nowSend = msg;
-				Log.v(TAG, "no " + url + " " + miss);
+				Log.v(TAG, "no " + url + " " + miss+" client:"+Bus.clientAddr);
 				try {
 					Bus.sendMsgTo(msg, InetAddress.getByName("192.168.49.1"));
 				} catch (UnknownHostException e) {
