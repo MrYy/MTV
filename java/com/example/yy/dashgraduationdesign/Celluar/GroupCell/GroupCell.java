@@ -88,10 +88,10 @@ public class GroupCell extends Thread {
 					IC.getSeg(url).checkIntegrity();
 					Bus.configureData.getCellularSharePolicy().handleFragment(fm);
 				}else if (connection.getResponseCode() == 200) {
-					Log.d(TAG, "else " + url);
-					CellularDown.queryFragment(CellularDown.CellType.CellMore,
-							url);
-					break;
+//					Log.d(TAG, "else " + url);
+//					CellularDown.queryFragment(CellularDown.CellType.CellMore,
+//							url);
+//					break;
 				}
 			}
 		} catch (MalformedURLException e) {
