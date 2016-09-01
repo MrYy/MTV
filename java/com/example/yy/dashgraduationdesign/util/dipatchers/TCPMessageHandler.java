@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
  * Created by zxc on 2016/8/25.
  */
 public class TCPMessageHandler extends MessageHandler {
+    private static final String TAG = TCPMessageHandler.class.getSimpleName();
     private ExecutorService threadPool = Executors.newFixedThreadPool(1);
     private Bus bus;
     public TCPMessageHandler(Bus bus) {
@@ -41,11 +42,26 @@ public class TCPMessageHandler extends MessageHandler {
                     InetAddress addr = InetAddress.getByName(msgR.split("~")[3].substring(1));
                     Message msg = new Message();
                     FileFragment frag = IntegrityCheck.getInstance().getSeg(url).getFragment(miss);
-                    if(frag == null) return;
+                    if(frag == null) {
+                        Log.d(TAG, "no segment,send back to client");
+                        msg.setMessage(Bus.SYSYTEM_BT_NO_SEGMENT+url+"~"+miss+"~"+addr);
+                        Bus.sendMsgTo(msg,addr);
+                        return;
+                    };
                     msg.setFragment(frag);
                     Bus.sendMsgTo(msg, addr);
                 } catch (FileFragment.FileFragmentException e) {
                     e.printStackTrace();
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+            } else if (msgR.startsWith(Bus.SYSYTEM_BT_NO_SEGMENT)) {
+                int miss = Integer.parseInt(msgR.split("~")[2]);
+                int url = Integer.parseInt(msgR.split("~")[1]);
+                try {
+                    Message msg = new Message();
+                    msg.setMessage(Bus.SYSTEM_MESSAGE+url+"~"+miss+"~"+msgR.split("~")[3]);
+                    Bus.sendMsgTo(msg,InetAddress.getByName(Bus.HOST_IP));
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }

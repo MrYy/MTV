@@ -27,6 +27,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Bus implements Dispatcher {
     //Dispatcher中注册用户的handler
     private static final String TAG = Bus.class.getSimpleName();
+    public static final String HOST_IP = "192.168.49.1";
     private  Handler currHandler;
 
     public void setHandler(Handler currHandler) {
@@ -72,6 +73,7 @@ public class Bus implements Dispatcher {
     public static String userName;
     public static final String SYSTEM_MESSAGE_SHARE_NETWORK = "asdfxczv;asfde[asdfqwer324asfd~";
     public static final String SYSTEM_MESSAGE = "asfsadwaasdfxczvasdfqqweqwr~";
+    public static final String SYSYTEM_BT_NO_SEGMENT = "asdfasdfezxcg2341!@$asdfrdt~";
     public static final Set<String> onLineUsers = new ConcurrentSkipListSet<>();
     private final static Lock lock = new ReentrantLock();
     private final static Condition condition = lock.newCondition();
