@@ -1,9 +1,9 @@
 package com.example.yy.dashgraduationdesign.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,8 +20,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.vov.vitamio.LibsChecker;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
+    @BindView(R.id.button_test)
+    Button buttonTest;
     private ConnectionPolicy connectionPolicy;
     @BindView(R.id.button_create_connection)
     Button buttonCreateConnection;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!LibsChecker.checkVitamioLibs(this)){
+        if (!LibsChecker.checkVitamioLibs(this)) {
             return;
         }
         setContentView(R.layout.activity_main);
@@ -46,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private void config() {
         connectionPolicy = new WifiDirectConnection(this);
     }
-    @OnClick({R.id.button_create_connection, R.id.button_connect_to, R.id.button_display})
+
+    @OnClick({R.id.button_create_connection, R.id.button_connect_to, R.id.button_display,R.id.button_test})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button_create_connection:
@@ -58,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.button_display:
                 bt();
+                break;
+            case R.id.button_test:
+
                 break;
         }
     }
@@ -95,4 +101,5 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 //        connectionPolicy.die();
     }
+
 }
