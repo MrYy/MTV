@@ -203,6 +203,10 @@ public class Segment {
 		buffermap[i] = true;
 		numToDown --;
 	}
+
+	public synchronized boolean[] getBuffermap() {
+		return buffermap;
+	}
 	public class SegmentException extends Exception {
 		private static final long serialVersionUID = 1187571347280690149L;
 

@@ -98,4 +98,8 @@ public class IntegrityCheck {
 	public Segment getSeg(int id) {
 		return urlMap.get(id);
 	}
+
+	public synchronized SparseArray<Segment> getUrlMap() {
+		return urlMap;
+	}
 }

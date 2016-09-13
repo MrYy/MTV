@@ -3,8 +3,15 @@ package com.example.yy.dashgraduationdesign.transmission.UDP;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.util.SparseArray;
 
+import com.example.yy.dashgraduationdesign.Entities.Segment;
+import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -26,17 +33,35 @@ class UDPHandler extends Handler {
 public class UDPChannel extends Thread{
     private UDPHandler handler ;
     private static final String TAG = UDPChannel.class.getSimpleName();
+    private final int serverPort = 7895;
 
-//    public UDPChannel(UDPHandler handler) {
+    //    public UDPChannel(UDPHandler handler) {
 //        Looper.prepare();
 //        Looper.loop();
 //        start();
 //    }
-
-    private void sendMessage() {
-        String message = "hello";
-        int server_port = 7894;
-
+    private String getBuffermap() {
+        String buffermapString;
+        SparseArray<Segment> urlmap = IntegrityCheck.getInstance().getUrlMap();
+        int size = urlmap.size();
+        JSONObject buffermapJson = new JSONObject();
+        for (int i =1;i<=size;i++) {
+            boolean[] buffermap = urlmap.get(i).getBuffermap();
+            JSONArray arraymap = new JSONArray();
+            for (int j =0;j<buffermap.length;j++) {
+                arraymap.put(buffermap[j]);
+            }
+            try {
+                buffermapJson.put(String.valueOf(i), arraymap);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        buffermapString = buffermapJson.toString();
+        Log.d(TAG, "buffer map is:   " + buffermapString);
+        return buffermapString;
+    }
+    private void sendMessage(String message) {
         DatagramSocket s = null;
         try {
             s = new DatagramSocket();
@@ -51,7 +76,7 @@ public class UDPChannel extends Thread{
         }
         int msg_len = message.length();
         byte[] messageByte = message.getBytes();
-        DatagramPacket p = new DatagramPacket(messageByte, msg_len, local, 7895);
+        DatagramPacket p = new DatagramPacket(messageByte, msg_len, local, serverPort);
         try {
             Log.d(TAG, "send message");
             s.send(p);
@@ -63,11 +88,10 @@ public class UDPChannel extends Thread{
 
     private void getMessage() {
         Log.d(TAG, "start listening");
-        int port = 7895;
         byte[] message = new byte[100];
 
         try {
-            DatagramSocket datagramSocket = new DatagramSocket(port);
+            DatagramSocket datagramSocket = new DatagramSocket(serverPort);
             datagramSocket.setBroadcast(true);
             DatagramPacket datagramPacket = new DatagramPacket((message), message.length);
 
@@ -86,7 +110,7 @@ public class UDPChannel extends Thread{
     @Override
     public void run() {
         super.run();
-        if (Bus.isOwner)
+        if (!Bus.isOwner)
             getMessage();
         else
             while (true) {
@@ -95,8 +119,7 @@ public class UDPChannel extends Thread{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                sendMessage();
+                sendMessage(getBuffermap());
             }
-
     }
 }
