@@ -6,7 +6,7 @@ import android.util.Log;
 
 
 import com.example.yy.dashgraduationdesign.R;
-import com.example.yy.dashgraduationdesign.transmission.ServerThread;
+import com.example.yy.dashgraduationdesign.transmission.TCP.ServerThread;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

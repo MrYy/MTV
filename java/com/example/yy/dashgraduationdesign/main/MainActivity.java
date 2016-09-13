@@ -13,6 +13,7 @@ import com.example.yy.dashgraduationdesign.R;
 import com.example.yy.dashgraduationdesign.VideoActivity;
 import com.example.yy.dashgraduationdesign.policy.ConnectionPolicy;
 import com.example.yy.dashgraduationdesign.policy.WifiDirectConnection;
+import com.example.yy.dashgraduationdesign.transmission.UDP.UDPChannel;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
 import butterknife.BindView;
@@ -63,7 +64,7 @@ public class MainActivity extends Activity {
                 bt();
                 break;
             case R.id.button_test:
-
+                new UDPChannel().start();
                 break;
         }
     }

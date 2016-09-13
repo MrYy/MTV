@@ -12,8 +12,8 @@ import android.util.Log;
 
 
 import com.example.yy.dashgraduationdesign.R;
-import com.example.yy.dashgraduationdesign.transmission.Client;
-import com.example.yy.dashgraduationdesign.transmission.ServerThread;
+import com.example.yy.dashgraduationdesign.transmission.TCP.Client;
+import com.example.yy.dashgraduationdesign.transmission.TCP.ServerThread;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 import com.example.yy.dashgraduationdesign.util.Method;
 

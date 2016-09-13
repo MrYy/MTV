@@ -31,7 +31,6 @@ public class Bus implements Dispatcher {
     private static final String TAG = Bus.class.getSimpleName();
     public static final String HOST_IP = "192.168.49.1";
     private  Handler currHandler;
-
     public void setHandler(Handler currHandler) {
         this.currHandler = currHandler;
     }
