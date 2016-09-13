@@ -1,5 +1,8 @@
 package com.example.yy.dashgraduationdesign.util.dipatchers;
 
+import android.content.Context;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.util.ArraySet;
 
@@ -12,7 +15,9 @@ import com.example.yy.dashgraduationdesign.Entities.ConfigureData;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.SendTask;
 
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -30,6 +35,7 @@ public class Bus implements Dispatcher {
     //Dispatcher中注册用户的handler
     private static final String TAG = Bus.class.getSimpleName();
     public static final String HOST_IP = "192.168.49.1";
+    public static  String BROADCAST_IP;
     private  Handler currHandler;
     public void setHandler(Handler currHandler) {
         this.currHandler = currHandler;
@@ -57,6 +63,11 @@ public class Bus implements Dispatcher {
             new DashProxyServer();
             configureData.setWorkingMode(ConfigureData.WorkMode.G_MDOE);
             userName = getRandomString(20);
+            try {
+                clientAddr = InetAddress.getByName("0.0.0.0");
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
         }
 
         public Bus getInstance() {
@@ -141,4 +152,5 @@ public class Bus implements Dispatcher {
         }
         return sb.toString();
     }
+
 }

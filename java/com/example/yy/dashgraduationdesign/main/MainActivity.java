@@ -1,7 +1,10 @@
 package com.example.yy.dashgraduationdesign.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.DhcpInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,9 @@ import com.example.yy.dashgraduationdesign.policy.ConnectionPolicy;
 import com.example.yy.dashgraduationdesign.policy.WifiDirectConnection;
 import com.example.yy.dashgraduationdesign.transmission.UDP.UDPChannel;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
+
+import java.io.IOException;
+import java.net.InetAddress;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

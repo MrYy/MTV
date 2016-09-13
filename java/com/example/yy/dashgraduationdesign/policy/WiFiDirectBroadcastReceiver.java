@@ -36,6 +36,9 @@ import android.util.Log;
 
 import com.example.yy.dashgraduationdesign.policy.directStatus.Status;
 import com.example.yy.dashgraduationdesign.util.Method;
+import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
+
+import java.io.IOException;
 
 
 
@@ -91,8 +94,13 @@ public class WiFiDirectBroadcastReceiver extends BroadcastReceiver {
                         Log.d("owner", "group owner ip is :" + wifiP2pInfo.groupOwnerAddress.getHostAddress());
                     }
                 });
-
-        	}
+                try {
+                    Bus.BROADCAST_IP = Method.getBroadcastAddress(context).toString().substring(1);
+                    Log.d(TAG, "broadcast ip:  " + Bus.BROADCAST_IP);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         	else
         	{
                 Log.d(TAG, "not connect");
