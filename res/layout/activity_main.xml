@@ -16,25 +16,25 @@
     <Button
         android:layout_gravity="center_horizontal"
         android:id="@+id/button_create_connection"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/button_width"
         android:layout_height="wrap_content"
-        android:text="create connect" />
+        android:text="CREATE CONNECT" />
     <Button
         android:layout_gravity="center_horizontal"
         android:id="@+id/button_connect_to"
-        android:text="connect to"
-        android:layout_width="wrap_content"
+        android:text="CONNECT TO"
+        android:layout_width="@dimen/button_width"
         android:layout_height="wrap_content" />
     <Button
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/button_width"
         android:id="@+id/button_display"
-        android:text="display"
+        android:text="DISPLAY"
         android:layout_height="wrap_content" />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/button_width"
         android:layout_gravity="center_horizontal"
-        android:text="test"
+        android:text="TEST"
         android:id="@+id/button_test"
         android:layout_height="wrap_content" />
 </LinearLayout>

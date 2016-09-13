@@ -2,26 +2,33 @@ package com.example.yy.dashgraduationdesign.Entities;
 
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 public class Segment {
 	private static final String TAG = Segment.class.getSimpleName();
-
 	private int segmentID;
 	private ArrayList<FileFragment> segmentList;
 	private int segLength = -1;
 	private boolean Intergrity = false;
 	private static Random random = new Random();
 	private int percent = 0;
-
+	private boolean[] buffermap;
+	private int numToDown;
+	private final int FRAGMENT_LENGTH = 163840;
 	public synchronized void setSegLength(int segLength) {
 		if (this.segLength == -1) {
 			this.segLength = segLength;
 		}
+		if (percent == 0){
+			buffermap = new boolean[segLength/FRAGMENT_LENGTH + 1];
+			buffermap[0] = true;
+			numToDown = buffermap.length;
+		}
 	}
-
 	public Segment(int id, int length) {
 		this.segmentID = id;
 		this.segLength = length;
@@ -34,7 +41,8 @@ public class Segment {
 				percent += fm.getFragLength();
 				segmentList.add(fm.clone());
 				Collections.sort(segmentList);
-				setSegLength(fm.getSegmentLen());
+//				setSegLength(fm.getSegmentLen());
+				finishDownloadPiece(fm.getStartIndex());
 				return true;
 			}
 			return false;
@@ -170,7 +178,31 @@ public class Segment {
 	public double getPercent() {
 		return percent * 100.0 / segLength;
 	}
-
+	//get random next piece to download.
+	public synchronized int getNextPieceStart() {
+		Log.d(TAG, "number to download:  " + numToDown);
+		int nextToDown = random.nextInt(numToDown)+1;
+		int nextToDownStartIndex = 0;
+		for (int i =1;i<buffermap.length;i++) {
+			if (buffermap[i]) continue;
+			if (nextToDown-- == 1){
+				nextToDownStartIndex = i;
+				break;
+			}
+		}
+		Log.d(TAG, "url:"+ segmentID+
+				"buffer map index:" + nextToDownStartIndex+
+		"segment length:"+segLength);
+		return nextToDownStartIndex * FRAGMENT_LENGTH;
+	}
+	//@param i : start of fragment index.
+	public synchronized void finishDownloadPiece(int i) {
+		if (i > buffermap.length) {
+			i = i / FRAGMENT_LENGTH;
+		}
+		buffermap[i] = true;
+		numToDown --;
+	}
 	public class SegmentException extends Exception {
 		private static final long serialVersionUID = 1187571347280690149L;
 

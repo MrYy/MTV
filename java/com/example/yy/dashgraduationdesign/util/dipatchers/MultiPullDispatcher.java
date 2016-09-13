@@ -7,7 +7,7 @@ import java.net.InetAddress;
 /**
  * Created by zxc on 2016/9/12.
  */
-public class MutiPullDispatcher implements Dispatcher {
+public class MultiPullDispatcher implements Dispatcher {
     @Override
     public void dispatch(Message message, InetAddress mClient) {
 

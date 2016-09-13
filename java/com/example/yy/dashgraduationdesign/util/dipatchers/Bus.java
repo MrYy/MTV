@@ -5,6 +5,8 @@ import android.util.ArraySet;
 
 import com.example.yy.dashgraduationdesign.Celluar.BTDown;
 import com.example.yy.dashgraduationdesign.Celluar.BTShare;
+import com.example.yy.dashgraduationdesign.Celluar.MultiPullDown;
+import com.example.yy.dashgraduationdesign.Celluar.MultiPullShare;
 import com.example.yy.dashgraduationdesign.DASHProxyServer.DashProxyServer;
 import com.example.yy.dashgraduationdesign.Entities.ConfigureData;
 import com.example.yy.dashgraduationdesign.Entities.Message;
@@ -63,8 +65,10 @@ public class Bus implements Dispatcher {
         }
     }
 
-    public static ConfigureData configureData = new ConfigureData.Builder().setCellularDownPolicy(new BTDown())
-            .setCellularSharePolicy(new BTShare()).build();
+    public static ConfigureData configureData = new ConfigureData.Builder().setCellularDownPolicy(new MultiPullDown())
+            .setCellularSharePolicy(new MultiPullShare()).build();
+
+
     public static final BlockingQueue<SendTask> taskMessageQueue = new LinkedBlockingQueue<SendTask>();
     public static final BlockingQueue<SendTask> sendMessageQueue = new LinkedBlockingQueue<SendTask>();
     //接收到的系统消息

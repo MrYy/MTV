@@ -1,11 +1,8 @@
-package com.example.yy.dashgraduationdesign.Celluar.CellMore;
+package com.example.yy.dashgraduationdesign.Celluar.RandomCell;
 
 import android.util.Log;
 
-
-import com.example.yy.dashgraduationdesign.Celluar.CellularSharePolicy;
 import com.example.yy.dashgraduationdesign.Celluar.GroupCell.GroupCell;
-import com.example.yy.dashgraduationdesign.Celluar.TCPShare;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
@@ -18,37 +15,39 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class CellularMore extends Thread {
-    private static final String TAG = CellularMore.class.getSimpleName();
-    private CellularSharePolicy policy;
+/**
+ * Created by zxc on 2016/9/13.
+ */
+public class RandomCell extends Thread {
+    private static final String TAG = RandomCell.class.getSimpleName();
     private int url;
-
-    public CellularMore(int url) {
+    private boolean hasGetFirst = false;
+    public RandomCell(int url) {
         this.url = url;
-        policy = new TCPShare();
     }
 
     @Override
     public void run() {
         IntegrityCheck IC = IntegrityCheck.getInstance();
+        HttpURLConnection connection = null;
         Segment Seg = IC.getSeg(url);
-        if (Seg != null) {
-            while (!Seg.checkIntegrity()) {
-                int miss;
-                try {
-                    miss = Seg.getMiss();
-                } catch (Segment.SegmentException e) {
-                    e.printStackTrace();
+            while (true) {
+                if(Seg.checkIntegrity()){
                     break;
                 }
-                Log.v(TAG, "no " + url + "  miss" + miss);
-                HttpURLConnection connection = null;
+                int nextStart = 0;
+                if (hasGetFirst)
+                    nextStart = Seg.getNextPieceStart();
+                else
+                    hasGetFirst = true;
+
+                Log.v(TAG, url + "  is download: " + nextStart);
                 try {
                     URL uurl = new URL(IntegrityCheck.GROUP_TAG + "?filename=" + url
                             + ".mp4&sessionid=" + GroupCell.groupSession +
-                            "&user_name=" + Bus.userName + "&miss=" + miss);
+                            "&user_name=" + Bus.userName + "&miss=" + nextStart);
 
-                    Log.d(TAG, "" + uurl);
+//                    Log.d(TAG, "" + uurl);
                     connection = (HttpURLConnection) uurl.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setConnectTimeout(5000);
@@ -64,7 +63,7 @@ public class CellularMore extends Thread {
                         InputStream in = connection.getInputStream();
                         String videoName = connection.getHeaderField("video-name");
                         String videoRate = videoName.split("/")[1];
-                        Log.d(TAG, "video rate:" + String.valueOf(videoRate));
+//                        Log.d(TAG, "video rate:" + String.valueOf(videoRate));
                         Message msg = new Message();
 
                         String contentRange = connection.getHeaderField(
@@ -93,10 +92,9 @@ public class CellularMore extends Thread {
                         Log.d(TAG, "" + url + " " + fm);
                         fm.setData(tmpbuff);
                         IC.insert(url, fm, 0);
-                        IC.getSeg(url).checkIntegrity();
                         Bus.configureData.getCellularSharePolicy().handleFragment(fm);
-                        break;
                     }
+
 
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -116,15 +114,12 @@ public class CellularMore extends Thread {
 
                     }
                 }
-                try {
-                    Log.d(TAG, "start sleep");
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                }
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                }
             }
             Log.d(TAG, "yes " + url);
-        } else {
-            Log.e(TAG, "a " + url);
-        }
+
     }
 }

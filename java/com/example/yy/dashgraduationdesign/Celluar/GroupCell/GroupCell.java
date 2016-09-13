@@ -2,10 +2,6 @@ package com.example.yy.dashgraduationdesign.Celluar.GroupCell;
 
 import android.util.Log;
 
-
-import com.example.yy.dashgraduationdesign.Celluar.CellularDown;
-import com.example.yy.dashgraduationdesign.Celluar.CellularSharePolicy;
-import com.example.yy.dashgraduationdesign.Celluar.TCPShare;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
