@@ -19,6 +19,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -52,6 +54,11 @@ public class UDPChannel extends Thread {
                     Log.d(TAG, "addr:  " + addr
                             + "client ip  " + Bus.clientAddr.toString().substring(1) +
                             "  is equal  " + addr.equals(Bus.clientAddr.toString().substring(1)));
+                    /**
+                     * filter code
+                     */
+
+
                     if (Bus.isOwner){
                         if (addr.equals(Bus.HOST_IP)){
                             Log.d(TAG, "filter from host");
@@ -78,6 +85,27 @@ public class UDPChannel extends Thread {
 
         private void handleMessage(String msg) {
             //handle the msg get,turn it into buffer map.
+            try {
+                JSONObject buffermap = new JSONObject(msg);
+                String addr = buffermap.getString("address");
+                String health = buffermap.getString("health");
+
+                if (Integer.parseInt(health) > IntegrityCheck.health){
+                    JSONArray data = buffermap.getJSONArray("data");
+                    int xLength = data.length();
+                    for (int i =0;i<xLength;i++) {
+                        JSONArray bufferArr = data.getJSONArray(i);
+                        boolean[] buffermapArr = new boolean[bufferArr.length()];
+                        for (int j = 0;j<bufferArr.length();j++) {
+                            buffermapArr[j] = bufferArr.getBoolean(j);
+//                            Log.d(TAG, "seg id:  " + i + "  fragment  " + j + "  has:  " + buffermapArr[j]);
+                        }
+                        IntegrityCheck.getInstance().getSeg(i+1).setSeederBuffermap(addr,buffermapArr);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -92,9 +120,11 @@ public class UDPChannel extends Thread {
         int size = urlmap.size();
         JSONObject buffermapWithHead = new JSONObject();
         JSONArray buffermapJson = new JSONArray();
+        int healthNum = 0;
         for (int i = 1; i <= size; i++) {
             boolean[] buffermap = urlmap.get(i).getBuffermap();
             if (buffermap == null) break;
+            healthNum += urlmap.get(i).getHealthDegree();
             JSONArray arraymap = new JSONArray();
             for (int j = 0; j < buffermap.length; j++) {
                 arraymap.put(buffermap[j]);
@@ -108,6 +138,7 @@ public class UDPChannel extends Thread {
                 buffermapWithHead.put("address", Bus.clientAddr.toString().substring(1));
             }
             buffermapWithHead.put("data", buffermapJson);
+            buffermapWithHead.put("health", healthNum);
         } catch (JSONException e) {
             e.printStackTrace();
         }

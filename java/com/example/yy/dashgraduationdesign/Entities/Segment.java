@@ -17,8 +17,11 @@ public class Segment {
 	private static Random random = new Random();
 	private int percent = 0;
 	private boolean[] buffermap;
+	private boolean[] seederBuffermap;
 	private int numToDown;
 	private final int FRAGMENT_LENGTH = 163840;
+	private String seederAddr;
+
 	public synchronized void setSegLength(int segLength) {
 		if (this.segLength == -1) {
 			this.segLength = segLength;
@@ -213,5 +216,18 @@ public class Segment {
 		public SegmentException(String string) {
 			super(string);
 		}
+	}
+
+	public int getHealthDegree() {
+		return buffermap.length - numToDown;
+	}
+
+	public boolean[] getSeederBuffermap() {
+		return seederBuffermap;
+	}
+
+	public void setSeederBuffermap(String seederAddr,boolean[] seederBuffermap) {
+		this.seederAddr = seederAddr;
+		this.seederBuffermap = seederBuffermap;
 	}
 }

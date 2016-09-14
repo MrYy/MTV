@@ -21,7 +21,7 @@ public class IntegrityCheck {
 	public static final String TCP_TAG =  "http://buptant.cn/autoChart/du/video/ljw2016/zxyqwe/tcpappdown.php";
 	public static final String JUNIT_TAG = "http://127.0.0.1:9999/junit.php";
 	public static final String URI_TAG = "http://127.1.1.1:9999/";
-
+	public static volatile int health = 0;
 	private IntegrityCheck() {
 		urlMap = new SparseArray<Segment>();
 	}
