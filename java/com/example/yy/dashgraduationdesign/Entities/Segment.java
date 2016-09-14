@@ -19,8 +19,8 @@ public class Segment {
 	private boolean[] buffermap;
 	private boolean[] seederBuffermap;
 	private int numToDown;
-	private final int FRAGMENT_LENGTH = 163840;
-	private String seederAddr;
+	public static final int FRAGMENT_LENGTH = 163840;
+	private String seederAddr="";
 
 	public synchronized void setSegLength(int segLength) {
 		if (this.segLength == -1) {
@@ -184,6 +184,7 @@ public class Segment {
 	//get random next piece to download.
 	public synchronized int getNextPieceStart() {
 		Log.d(TAG, "number to download:  " + numToDown);
+		if (buffermap==null) return -1;
 		int nextToDown = random.nextInt(numToDown)+1;
 		int nextToDownStartIndex = 0;
 		for (int i =1;i<buffermap.length;i++) {
@@ -226,8 +227,17 @@ public class Segment {
 		return seederBuffermap;
 	}
 
-	public void setSeederBuffermap(String seederAddr,boolean[] seederBuffermap) {
+	public String getSeederAddr() {
+		return seederAddr;
+	}
+
+	public synchronized void setSeederBuffermap(String seederAddr, boolean[] seederBuffermap) {
 		this.seederAddr = seederAddr;
 		this.seederBuffermap = seederBuffermap;
+	}
+
+	public void setBuffermap(boolean[] buffermap) {
+		this.buffermap = buffermap;
+		numToDown = buffermap.length;
 	}
 }

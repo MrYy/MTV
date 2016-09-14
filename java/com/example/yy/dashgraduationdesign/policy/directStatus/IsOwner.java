@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.yy.dashgraduationdesign.R;
 import com.example.yy.dashgraduationdesign.transmission.TCP.ServerThread;
+import com.example.yy.dashgraduationdesign.transmission.UDP.UDPChannel;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -60,9 +61,10 @@ public class IsOwner implements Status {
 
     @Override
     public void connectSuccess() {
-        ExecutorService es = Executors.newFixedThreadPool(1);
+        ExecutorService es = Executors.newFixedThreadPool(2);
         try {
             es.execute(new ServerThread(InetAddress.getByName(ip),context));
+            es.execute(new UDPChannel());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

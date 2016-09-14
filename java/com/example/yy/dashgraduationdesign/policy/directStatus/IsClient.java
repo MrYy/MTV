@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.yy.dashgraduationdesign.R;
 import com.example.yy.dashgraduationdesign.transmission.TCP.Client;
+import com.example.yy.dashgraduationdesign.transmission.UDP.UDPChannel;
 import com.example.yy.dashgraduationdesign.util.Method;
 
 import java.net.InetAddress;
@@ -90,9 +91,10 @@ public class IsClient implements Status {
 
     @Override
     public void connectSuccess() {
-        ExecutorService es = Executors.newFixedThreadPool(1);
+        ExecutorService es = Executors.newFixedThreadPool(2);
         try {
             es.execute(new Client(InetAddress.getByName(IsOwner.ip), 12345,context));
+            es.execute(new UDPChannel());
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

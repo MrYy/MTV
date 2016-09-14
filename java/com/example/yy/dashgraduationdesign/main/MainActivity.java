@@ -70,7 +70,6 @@ public class MainActivity extends Activity {
                 bt();
                 break;
             case R.id.button_test:
-                new UDPChannel().start();
                 break;
         }
     }
