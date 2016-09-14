@@ -7,6 +7,7 @@ import android.util.SparseArray;
 
 import com.example.yy.dashgraduationdesign.Entities.Segment;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
+import com.example.yy.dashgraduationdesign.util.Method;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
 import org.json.JSONArray;
@@ -51,26 +52,29 @@ public class UDPChannel extends Thread {
                     String msg = new String(datagramPacket.getData()).trim();
                     JSONObject buffermapJson = new JSONObject(msg);
                     String addr = buffermapJson.getString("address");
-                    Log.d(TAG, "addr:  " + addr
-                            + "client ip  " + Bus.clientAddr.toString().substring(1) +
-                            "  is equal  " + addr.equals(Bus.clientAddr.toString().substring(1)));
+//                    Log.d(TAG, "addr:  " + addr
+//                            + "client ip  " + Bus.clientAddr.toString().substring(1) +
+//                            "  is equal  " + addr.equals(Bus.clientAddr.toString().substring(1)));
                     /**
                      * filter code
                      */
 
-
-                    if (Bus.isOwner){
-                        if (addr.equals(Bus.HOST_IP)){
-                            Log.d(TAG, "filter from host");
-                            continue;
-                        }
-                    }else{
-                        if (addr.equals(Bus.clientAddr.toString().substring(1)))
-                        {
-                            Log.d(TAG, "filter from client");
-                            continue;
+                    boolean isFilter = true;
+                    if (isFilter) {
+                        if (Bus.isOwner){
+                            if (addr.equals(Bus.HOST_IP)){
+                                Log.d(TAG, "filter from host");
+                                continue;
+                            }
+                        }else{
+                            if (addr.equals(Bus.clientAddr.toString().substring(1)))
+                            {
+                                Log.d(TAG, "filter from client");
+                                continue;
+                            }
                         }
                     }
+
                     Log.d(TAG, "get msg:  " + msg);
                     handleMessage(msg);
                 }
@@ -98,9 +102,10 @@ public class UDPChannel extends Thread {
                         boolean[] buffermapArr = new boolean[bufferArr.length()];
                         for (int j = 0;j<bufferArr.length();j++) {
                             buffermapArr[j] = bufferArr.getBoolean(j);
-//                            Log.d(TAG, "seg id:  " + i + "  fragment  " + j + "  has:  " + buffermapArr[j]);
                         }
                         IntegrityCheck.getInstance().getSeg(i+1).setSeederBuffermap(addr,buffermapArr);
+                        IntegrityCheck.health = Integer.parseInt(health);
+//                        Log.d(TAG, "set buffer map: " + Method.printBuffermap(buffermapArr));
                     }
                 }
             } catch (JSONException e) {

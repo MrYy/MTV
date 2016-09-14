@@ -297,5 +297,12 @@ public class Method {
             quads[k] = (byte) ((broadcast >> k * 8) & 0xFF);
         return InetAddress.getByAddress(quads);
     }
-
+    public static String printBuffermap(boolean[] buffermap) {
+        String r = "";
+        for (int i =0;i<buffermap.length;i++) {
+            if (buffermap[i]) r += "true ";
+            else r += "false ";
+        }
+        return r;
+    }
 }

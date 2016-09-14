@@ -7,6 +7,7 @@ import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
+import com.example.yy.dashgraduationdesign.util.Method;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
 import java.io.IOException;
@@ -52,10 +53,12 @@ public class RandomCell extends Thread {
             if (nextStart > 0)
                 if (IntegrityCheck.health > 0) {
                     if (!Seg.getSeederAddr().equals("")) {
-                        if (Seg.getBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]) {
+                        Log.d(TAG, "now check the buffer map. " + Method.printBuffermap(Seg.getSeederBuffermap()));
+                        if (Seg.getSeederBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]) {
                             getFromWifi(nextStart, Seg.getSeederAddr());
                             continue;
                         }
+                        Log.d(TAG, "no buffer,download from cellular");
                     }
                 }
             getFromCellular(nextStart);
@@ -70,10 +73,10 @@ public class RandomCell extends Thread {
 //                getFromWifi(nextStart, Seg.getSeederAddr());
 //                continue;
 //            }
-            Log.d(TAG, "yes " + url);
 
         }
     }
+
 
     private void getFromCellular(int nextStart) {
         try {
