@@ -4,6 +4,7 @@ import com.example.yy.dashgraduationdesign.Celluar.CellularDownPolicy;
 import com.example.yy.dashgraduationdesign.Celluar.CellularSharePolicy;
 import com.example.yy.dashgraduationdesign.Celluar.TCPDown;
 import com.example.yy.dashgraduationdesign.Celluar.TCPShare;
+import com.example.yy.dashgraduationdesign.util.dipatchers.Dispatcher;
 
 public class ConfigureData {
 	private static final String TAG = ConfigureData.class.getSimpleName();
@@ -12,6 +13,11 @@ public class ConfigureData {
 	private String url ;
 	private boolean serviceAlive;
 	private WorkMode workingMode;
+	private Dispatcher dispatcher;
+
+	public void setDispatcher(Dispatcher dispatcher) {
+		this.dispatcher = dispatcher;
+	}
 
 	public CellularDownPolicy getCellularDownPolicy() {
 		return cellularDownPolicy;
@@ -21,6 +27,9 @@ public class ConfigureData {
 		return cellularSharePolicy;
 	}
 
+	public Dispatcher getDispatcher() {
+		return dispatcher;
+	}
 	public  enum WorkMode {
 		LOCAL_MODE,G_MDOE,COOPERATIVE_MODE,JUNIT_TEST_MODE,
 		FAKE_MODE
@@ -59,6 +68,7 @@ public class ConfigureData {
 		private WorkMode workingMode = WorkMode.LOCAL_MODE;
 		private CellularDownPolicy cellularDownPolicy = new TCPDown();
 		private CellularSharePolicy cellularSharePolicy = new TCPShare();
+		private Dispatcher dispatcher;
 
 		public ConfigureData build() {
 			ConfigureData configureData = new ConfigureData();
@@ -67,6 +77,7 @@ public class ConfigureData {
 			configureData.workingMode = workingMode;
 			configureData.serviceAlive = serviceAlive;
 			configureData.url = url;
+			configureData.dispatcher = dispatcher;
 			return configureData;
 		}
 
@@ -90,6 +101,10 @@ public class ConfigureData {
 			return this;
 		}
 
+		public Builder setDispatcher(Dispatcher dispatcher) {
+			this.dispatcher = dispatcher;
+			return this;
+		}
 	}
 
 }

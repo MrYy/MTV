@@ -43,7 +43,7 @@ public class Bus implements Dispatcher {
     //枚举单例模式
     private static Bus instance;
     public static boolean isConnected;
-    private Dispatcher dispatcher = new TCPDispatcher(this);
+    private Dispatcher dispatcher = configureData.getDispatcher();
     @Override
     public void dispatch(Message msg, InetAddress mClient) {
         dispatcher.dispatch(msg,mClient);
@@ -62,6 +62,7 @@ public class Bus implements Dispatcher {
             if (instance == null) instance = new Bus();
             new DashProxyServer();
             configureData.setWorkingMode(ConfigureData.WorkMode.G_MDOE);
+            configureData.setDispatcher(new MultiPullDispatcher(instance));
             userName = getRandomString(20);
             try {
                 clientAddr = InetAddress.getByName("0.0.0.0");
@@ -76,7 +77,8 @@ public class Bus implements Dispatcher {
     }
 
     public static ConfigureData configureData = new ConfigureData.Builder().setCellularDownPolicy(new MultiPullDown())
-            .setCellularSharePolicy(new MultiPullShare()).build();
+            .setCellularSharePolicy(new MultiPullShare())
+    .build();
 
 
     public static final BlockingQueue<SendTask> taskMessageQueue = new LinkedBlockingQueue<SendTask>();
