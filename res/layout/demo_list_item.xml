@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginTop="20dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/demo_list_title"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/menu_text"
+        android:textSize="16dp"
+        android:text="owner"
+        android:typeface="serif"
+        android:layout_marginLeft="20dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:textColor="@color/menu_text"
+            android:text="ip address"
+            android:typeface="monospace"
+        android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/ip_textview"
+            android:typeface="monospace"
+            android:layout_height="wrap_content"
+            android:textColor="@color/menu_text"
+            android:layout_marginLeft="30dp"
+            android:text="192.168.49.1" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/menu_text"
+            android:text="net mask"
+            android:typeface="monospace"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:typeface="monospace"
+            android:id="@+id/netmask_textview"
+            android:layout_height="wrap_content"
+            android:textColor="@color/menu_text"
+            android:layout_marginLeft="30dp"
+            android:text="255.255.255.0" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/menu_text"
+            android:text="mac address"
+            android:typeface="monospace"
+            android:layout_marginLeft="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:typeface="monospace"
+            android:id="@+id/mac_textview"
+            android:layout_height="wrap_content"
+            android:textColor="@color/menu_text"
+            android:layout_marginLeft="30dp"
+            android:text="255.255.255.0" />
+    </LinearLayout>
+</LinearLayout>

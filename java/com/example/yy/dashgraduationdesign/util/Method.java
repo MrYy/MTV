@@ -290,6 +290,7 @@ public class Method {
     public static InetAddress getBroadcastAddress(Context context) throws IOException {
         WifiManager wifi = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
         DhcpInfo dhcp = wifi.getDhcpInfo();
+        Log.d(TAG, "ip: " + dhcp.ipAddress + " net mask: " + dhcp.netmask + " gate way:" + dhcp.gateway + " dns:" + dhcp.dns1);
         // handle null somehow
         int broadcast = (dhcp.ipAddress & dhcp.netmask) | ~dhcp.netmask;
         byte[] quads = new byte[4];

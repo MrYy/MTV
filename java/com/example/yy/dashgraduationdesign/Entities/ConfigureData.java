@@ -4,7 +4,9 @@ import com.example.yy.dashgraduationdesign.Celluar.CellularDownPolicy;
 import com.example.yy.dashgraduationdesign.Celluar.CellularSharePolicy;
 import com.example.yy.dashgraduationdesign.Celluar.TCPDown;
 import com.example.yy.dashgraduationdesign.Celluar.TCPShare;
+import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Dispatcher;
+import com.example.yy.dashgraduationdesign.util.dipatchers.MultiPullDispatcher;
 
 public class ConfigureData {
 	private static final String TAG = ConfigureData.class.getSimpleName();

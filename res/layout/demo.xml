@@ -1,6 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="7dp"
+
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="be Wi-Fi Direct group owner or member"
+        android:padding="0dp"
+        android:layout_marginLeft="6dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/in_menu"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CREATE"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:padding="0dp"/>
+
+        <Button
+            android:id="@+id/btStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONNECT"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:padding="0dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_marginTop="@dimen/menu_margin"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Wi-fi mode"
+        android:padding="0dp"
+        android:layout_marginLeft="6dp"/>
+
+    <Spinner
+        android:layout_marginTop="@dimen/in_menu"
+        android:id = "@+id/Spinner_wifi_"
+        android:layout_width = "match_parent"
+        android:layout_height ="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        >
+
+    </Spinner>
+
+
+
+    <!-- <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="7dp"
+        android:layout_height="wrap_content"
+        android:text="@string/url"
+        style="?android:listSeparatorTextViewStyle"
+        android:padding="0dp"
+        android:layout_marginLeft="6dp"/>
+
+    <EditText
+        android:id="@+id/url_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/hint"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/btConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:padding="0dp"/>   -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/menu_margin"
+        android:layout_height="wrap_content"
+        android:text="@string/player"
+        android:padding="0dp"
+        android:layout_marginLeft="6dp"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/in_menu"
+        android:layout_marginLeft="16dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:text="embed player"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:layout_marginLeft="32dp"
+            android:layout_width="wrap_content"
+            android:text="party player"
+            android:layout_height="wrap_content" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btChoose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="PLAY VIDEO"
+        android:padding="0dp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="CHECK MEMBERS"
+        android:padding="0dp"/>
+
+    <Button
+        android:id="@+id/btClear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="QUIT"
+        android:padding="0dp"/>
+
+
+
+
+    <!--   <LinearLayout
+
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
+
+         <Button
+             android:id="@+id/rate_low"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginLeft="16dp"
+             android:layout_weight="1"
+             android:text="low">
+
+         </Button>
+
+         <Button
+             android:id="@+id/rate_mid"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:text="mid">
+
+         </Button>
+
+         <Button
+             android:id="@+id/rate_high"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="16dp"
+             android:layout_weight="1"
+             android:text="high">
+
+         </Button>
+
+         </LinearLayout>   -->
+
 
 </LinearLayout>

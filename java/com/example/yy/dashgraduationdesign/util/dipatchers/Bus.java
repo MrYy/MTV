@@ -43,7 +43,7 @@ public class Bus implements Dispatcher {
     //枚举单例模式
     private static Bus instance;
     public static boolean isConnected;
-    private Dispatcher dispatcher = configureData.getDispatcher();
+    private Dispatcher dispatcher = new MultiPullDispatcher(this);
     @Override
     public void dispatch(Message msg, InetAddress mClient) {
         dispatcher.dispatch(msg,mClient);
