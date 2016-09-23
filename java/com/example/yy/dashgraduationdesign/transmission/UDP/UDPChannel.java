@@ -130,7 +130,8 @@ public class UDPChannel extends Thread {
         JSONArray buffermapJson = new JSONArray();
         int healthNum = 0;
         for (int i = 1; i <= size; i++) {
-            boolean[] buffermap = urlmap.get(i).getBuffermap();
+            Segment segment = urlmap.get(i);
+            boolean[] buffermap = segment.getBuffermap();
             if (buffermap == null) break;
             healthNum += urlmap.get(i).getHealthDegree();
             JSONArray arraymap = new JSONArray();

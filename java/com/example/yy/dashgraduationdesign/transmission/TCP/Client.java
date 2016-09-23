@@ -86,6 +86,7 @@ public class Client implements Runnable {
                         try {
                             while (!Bus.sendMessageQueue.isEmpty()) {
                                 SendTask sendTask = Bus.sendMessageQueue.poll();
+                                if (sendTask == null) continue;
                                 Message msg = sendTask.getMsg();
                                 msg.setName(Bus.userName);
                                 Method.send(msg, mSc);

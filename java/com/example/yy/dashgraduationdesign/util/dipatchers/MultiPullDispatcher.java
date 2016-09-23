@@ -6,6 +6,7 @@ import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.SendTask;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
+import com.example.yy.dashgraduationdesign.util.Method;
 
 import java.net.InetAddress;
 
@@ -50,7 +51,7 @@ public class MultiPullDispatcher implements Dispatcher {
                 Log.d(TAG, "receive fragment");
                 FileFragment ff = msg.getFragment();
                 IntegrityCheck.getInstance().insert(ff.getSegmentID(), ff, 0);
-
+                Method.record(ff, Bus.RECORD_TYPE, "wifi interface");
                 break;
         }
         Bus.getClients().add(mClient);

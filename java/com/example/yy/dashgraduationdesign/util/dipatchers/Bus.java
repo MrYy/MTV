@@ -33,6 +33,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Bus implements Dispatcher {
     //Dispatcher中注册用户的handler
+    public static final String RECORD_TYPE = "bt_seeder_already";
     private static final String TAG = Bus.class.getSimpleName();
     public static final String HOST_IP = "192.168.49.1";
     public static  String BROADCAST_IP;

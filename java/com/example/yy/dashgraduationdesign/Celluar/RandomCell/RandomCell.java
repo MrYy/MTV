@@ -17,6 +17,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,7 +29,7 @@ public class RandomCell extends Thread {
     private boolean hasGetFirst = false;
     private IntegrityCheck IC;
     private HttpURLConnection connection;
-
+    private HashMap<Integer, Long> map = new HashMap<>();
     public RandomCell(int url) {
         this.url = url;
     }
@@ -60,14 +61,21 @@ public class RandomCell extends Thread {
                     }
                     Log.d(TAG, "seeder addr "+Seg.getSeederAddr());
                     Log.d(TAG, "now check the buffer map.at "+String.valueOf(nextStart / Segment.FRAGMENT_LENGTH)
-                            +"  is  "+ Method.printBuffermap(Seg.getSeederBuffermap()));
+                            +"  is  "+ String.valueOf(Seg.getSeederBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]));
                         if (Seg.getSeederBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]) {
-                            getFromWifi(nextStart, Seg.getSeederAddr());
-                            try {
-                                TimeUnit.MILLISECONDS.sleep(500);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                            if (!map.containsKey(nextStart)){
+                                map.put(nextStart, System.currentTimeMillis());
+                                getFromWifi(nextStart, Seg.getSeederAddr());
+                            }else {
+                                if(System.currentTimeMillis()-map.get(nextStart)>1000){
+                                    Log.d(TAG, "get from cellular");
+                                    map.remove(nextStart);
+                                    getFromCellular(nextStart);
+                                }else
+                                    Log.d(TAG, "already send");
                             }
+                        }else {
+                            getFromCellular(nextStart);
                         }
                 }else {
                     getFromCellular(nextStart);
@@ -78,6 +86,11 @@ public class RandomCell extends Thread {
                 Log.d(TAG, "get from cellular");
                 getFromCellular(0);
             }
+            try {
+                TimeUnit.MILLISECONDS.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
         }
     }
@@ -85,11 +98,12 @@ public class RandomCell extends Thread {
 
     private void getFromCellular(int nextStart) {
         try {
+            //random cell,no need to keep session id.
             URL uurl = new URL(IntegrityCheck.GROUP_TAG + "?filename=" + url
-                    + ".mp4&sessionid=" + GroupCell.groupSession +
+                    + ".mp4&sessionid="  +null+
                     "&user_name=" + Bus.userName + "&miss=" + nextStart);
 
-//                    Log.d(TAG, "" + uurl);
+                    Log.d(TAG, "" + uurl);
             connection = (HttpURLConnection) uurl.openConnection();
             connection.setRequestMethod("POST");
             connection.setConnectTimeout(5000);
@@ -134,6 +148,7 @@ public class RandomCell extends Thread {
                 Log.d(TAG, "" + url + " " + fm);
                 fm.setData(tmpbuff);
                 IC.insert(url, fm, 0);
+                Method.record(fm,Bus.RECORD_TYPE,"cellular interface");
                 Bus.configureData.getCellularSharePolicy().handleFragment(fm);
             }
 
