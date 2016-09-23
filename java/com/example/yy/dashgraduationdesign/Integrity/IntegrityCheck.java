@@ -1,14 +1,12 @@
 package com.example.yy.dashgraduationdesign.Integrity;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import com.example.yy.dashgraduationdesign.Celluar.CellularDown;
 import com.example.yy.dashgraduationdesign.Entities.FileFragment;
-import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.Segment;
-import com.example.yy.dashgraduationdesign.Entities.SendTask;
-import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class IntegrityCheck {
@@ -22,6 +20,8 @@ public class IntegrityCheck {
 	public static final String JUNIT_TAG = "http://127.0.0.1:9999/junit.php";
 	public static final String URI_TAG = "http://127.1.1.1:9999/";
 	public static volatile int health = 0;
+	public static ConcurrentHashMap<Integer, String> seederAddrBackUp = new ConcurrentHashMap<>();
+	public static ConcurrentHashMap<Integer, boolean[]> seederBufferMapBackUp = new ConcurrentHashMap<>();
 	private IntegrityCheck() {
 		urlMap = new SparseArray<Segment>();
 	}

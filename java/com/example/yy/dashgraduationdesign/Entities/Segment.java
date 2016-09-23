@@ -183,7 +183,6 @@ public class Segment {
 	}
 	//get random next piece to download.
 	public synchronized int getNextPieceStart() {
-		Log.d(TAG, "number to download:  " + numToDown);
 		if (buffermap==null) return -1;
 		int nextToDown = random.nextInt(numToDown)+1;
 		int nextToDownStartIndex = 0;
@@ -194,9 +193,9 @@ public class Segment {
 				break;
 			}
 		}
-		Log.d(TAG, "url:"+ segmentID+
-				"buffer map index:" + nextToDownStartIndex+
-		"segment length:"+segLength);
+//		Log.d(TAG, "url:"+ segmentID+
+//				"buffer map index:" + nextToDownStartIndex+
+//		"segment length:"+segLength);
 		return nextToDownStartIndex * FRAGMENT_LENGTH;
 	}
 	//@param i : start of fragment index.
@@ -225,6 +224,10 @@ public class Segment {
 
 	public boolean[] getSeederBuffermap() {
 		return seederBuffermap;
+	}
+
+	public void setSeederAddr(String seederAddr) {
+		this.seederAddr = seederAddr;
 	}
 
 	public String getSeederAddr() {

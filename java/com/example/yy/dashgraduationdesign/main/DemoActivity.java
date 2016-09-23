@@ -28,13 +28,7 @@ public class DemoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo_list);
         ButterKnife.bind(this);
-//        Spinner spinner = (Spinner) findViewById(R.id.Spinner_wifi_);
-//        ArrayList<String> list = new ArrayList();
-//        list.add("Ad-hoc");
-//        list.add("Push-based");
-//        list.add("Pull-based");
-//        spinner.setAdapter(new ArrayAdapter(this,android.R.layout.simple_spinner_item,list));
-//        spinner.setSelection(0);
+
         List<Data> list = new ArrayList<>();
         list.add(new Data.Builder().setIp("192.168.49.1").setNetmask("255.255.255.0").setMacAddr("ee:1d:7f:e6:02:1b").create());
         list.add(new Data.Builder().setIp("192.168.49.94").setNetmask("255.255.255.0").setMacAddr("8e:3a:e3:42:7b:c6").create());

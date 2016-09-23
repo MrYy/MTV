@@ -34,8 +34,7 @@ public class MultiPullMessageHandler extends MessageHandler {
                 String[] infos = msgR.split("~");
                 msg.obj = infos[1];
                 GroupCell.groupSession = infos[2];
-                bus.handle(msg);
-//                    threadPool.execute(this);
+//                bus.handle(msg);
             } else if (msgR.startsWith(Bus.SYSTEM_MESSAGE)) {
                 int miss = Integer.parseInt(msgR.split("~")[2]);
                 int url = Integer.parseInt(msgR.split("~")[1]);

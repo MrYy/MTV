@@ -1,26 +1,26 @@
 package com.example.yy.dashgraduationdesign.main;
 
+import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.DhcpInfo;
-import android.net.wifi.WifiManager;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.example.yy.dashgraduationdesign.R;
 import com.example.yy.dashgraduationdesign.VideoActivity;
 import com.example.yy.dashgraduationdesign.policy.ConnectionPolicy;
 import com.example.yy.dashgraduationdesign.policy.WifiDirectConnection;
-import com.example.yy.dashgraduationdesign.transmission.UDP.UDPChannel;
 import com.example.yy.dashgraduationdesign.util.dipatchers.Bus;
 
-import java.io.IOException;
-import java.net.InetAddress;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,15 +29,19 @@ import io.vov.vitamio.LibsChecker;
 
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
-    @BindView(R.id.button_test)
-    Button buttonTest;
+    @BindView(R.id.btCreate)
+    Button btCreate;
+    @BindView(R.id.btConnect)
+    Button btConnect;
+    @BindView(R.id.Spinner_wifi_)
+    Spinner SpinnerWifi;
+    @BindView(R.id.btPlay)
+    Button btPlay;
+    @BindView(R.id.btClear)
+    Button btClear;
+
     private ConnectionPolicy connectionPolicy;
-    @BindView(R.id.button_create_connection)
-    Button buttonCreateConnection;
-    @BindView(R.id.button_connect_to)
-    Button buttonConnectTo;
-    @BindView(R.id.button_display)
-    Button buttonDisplay;
+
     private Handler mHandler = new TCPHandler(this);
 
     @Override
@@ -50,30 +54,41 @@ public class MainActivity extends Activity {
         ButterKnife.bind(this);
         Bus.Singleton.Instance.getInstance().setHandler(mHandler);
         config();
+        requestPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, 1);
+        requestPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, 2);
+        requestPermissions(Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS, 3);
+
     }
 
     private void config() {
         connectionPolicy = new WifiDirectConnection(this);
+        Spinner spinner = (Spinner) findViewById(R.id.Spinner_wifi_);
+        ArrayList<String> list = new ArrayList();
+        list.add("Ad-hoc");
+        list.add("Push-based");
+        list.add("Pull-based");
+        spinner.setAdapter(new ArrayAdapter(this,android.R.layout.simple_spinner_item,list));
+        spinner.setSelection(0);
     }
 
-    @OnClick({R.id.button_create_connection, R.id.button_connect_to, R.id.button_display,R.id.button_test})
+    @OnClick({R.id.btCreate, R.id.btConnect, R.id.btPlay})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.button_create_connection:
+            case R.id.btCreate:
                 Bus.isOwner = true;
                 connectionPolicy.establish();
                 break;
-            case R.id.button_connect_to:
+            case R.id.btConnect:
                 connectionPolicy.connect();
                 break;
-            case R.id.button_display:
+
+            case R.id.btPlay:
                 bt();
                 break;
-            case R.id.button_test:
+            case R.id.btClear:
                 break;
         }
     }
-
     private void tcp() {
         if (Bus.isOwner) {
             Intent intent = new Intent(MainActivity.this, VideoActivity.class);
@@ -88,6 +103,10 @@ public class MainActivity extends Activity {
         intent.putExtra("path", Bus.configureData.getUrl());
         Log.d(TAG, "path is:" + Bus.configureData.getUrl());
         startActivity(intent);
+    }
+
+    private void partyVideoPlayer() {
+
     }
 
     @Override
@@ -107,5 +126,28 @@ public class MainActivity extends Activity {
         super.onDestroy();
 //        connectionPolicy.die();
     }
+
+    private void requestPermissions(String permission, int code) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    permission)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                ActivityCompat.requestPermissions(this, new String[]{permission},
+                        code);
+            } else {
+
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this, new String[]{permission},
+                        code);
+            }
+        }
+    }
+
 
 }

@@ -1,7 +1,5 @@
 package com.example.yy.dashgraduationdesign.transmission.UDP;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -20,8 +18,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -63,13 +59,11 @@ public class UDPChannel extends Thread {
                     if (isFilter) {
                         if (Bus.isOwner){
                             if (addr.equals(Bus.HOST_IP)){
-                                Log.d(TAG, "filter from host");
                                 continue;
                             }
                         }else{
                             if (addr.equals(Bus.clientAddr.toString().substring(1)))
                             {
-                                Log.d(TAG, "filter from client");
                                 continue;
                             }
                         }
@@ -103,9 +97,18 @@ public class UDPChannel extends Thread {
                         for (int j = 0;j<bufferArr.length();j++) {
                             buffermapArr[j] = bufferArr.getBoolean(j);
                         }
-                        IntegrityCheck.getInstance().getSeg(i+1).setSeederBuffermap(addr,buffermapArr);
-                        IntegrityCheck.health = Integer.parseInt(health);
-//                        Log.d(TAG, "set buffer map: " + Method.printBuffermap(buffermapArr));
+                        Segment segment = IntegrityCheck.getInstance().getSeg(i+1);
+                        int iHealth = Integer.parseInt(health);
+                        if(segment != null)
+                        {
+                            Log.d(TAG, "set seeder addr " + addr);
+                            segment.setSeederBuffermap(addr,buffermapArr);
+                        }else {
+                            IntegrityCheck.seederAddrBackUp.put(iHealth, addr);
+                            IntegrityCheck.seederBufferMapBackUp.put(iHealth, buffermapArr);
+                        }
+                        IntegrityCheck.health = iHealth;
+                        Log.d(TAG, "set buffer map: " + Method.printBuffermap(buffermapArr));
                     }
                 }
             } catch (JSONException e) {
@@ -148,7 +151,7 @@ public class UDPChannel extends Thread {
             e.printStackTrace();
         }
         buffermapString = buffermapWithHead.toString();
-        Log.d(TAG, "buffer map is:   " + buffermapString);
+//        Log.d(TAG, "buffer map is:   " + buffermapString);
         return buffermapString;
     }
 
@@ -169,7 +172,6 @@ public class UDPChannel extends Thread {
         byte[] messageByte = message.getBytes();
         DatagramPacket p = new DatagramPacket(messageByte, msg_len, local, serverPort);
         try {
-            Log.d(TAG, "send message");
             s.send(p);
         } catch (IOException e) {
             e.printStackTrace();

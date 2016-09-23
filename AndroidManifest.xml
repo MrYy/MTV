@@ -23,6 +23,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".main.MainActivity">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".VideoActivity"
@@ -32,11 +37,6 @@
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".main.DemoActivity">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

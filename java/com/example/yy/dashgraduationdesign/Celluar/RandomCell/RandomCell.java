@@ -17,6 +17,7 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by zxc on 2016/9/13.
@@ -50,29 +51,33 @@ public class RandomCell extends Thread {
 
             Log.v(TAG, url + "  is download: " + nextStart);
             //usually, 0 fragment should always download from server
-            if (nextStart > 0)
+            if (nextStart > 0){
                 if (IntegrityCheck.health > 0) {
-                    if (!Seg.getSeederAddr().equals("")) {
-                        Log.d(TAG, "now check the buffer map. " + Method.printBuffermap(Seg.getSeederBuffermap()));
+                    if (Seg.getSeederAddr().equals(""))
+                    {
+                        Seg.setSeederBuffermap(IntegrityCheck.seederAddrBackUp.get(IntegrityCheck.health),
+                                IntegrityCheck.seederBufferMapBackUp.get(IntegrityCheck.health));
+                    }
+                    Log.d(TAG, "seeder addr "+Seg.getSeederAddr());
+                    Log.d(TAG, "now check the buffer map.at "+String.valueOf(nextStart / Segment.FRAGMENT_LENGTH)
+                            +"  is  "+ Method.printBuffermap(Seg.getSeederBuffermap()));
                         if (Seg.getSeederBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]) {
                             getFromWifi(nextStart, Seg.getSeederAddr());
-                            continue;
+                            try {
+                                TimeUnit.MILLISECONDS.sleep(500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        Log.d(TAG, "no buffer,download from cellular");
-                    }
+                }else {
+                    getFromCellular(nextStart);
                 }
-            getFromCellular(nextStart);
-//            if (nextStart == -1) {
-//                //doesn't has a array map yet
-//                if (Seg.getSeederBuffermap() != null)
-//                    Seg.setBuffermap(new boolean[Seg.getSeederBuffermap().length]);
-//                continue;
-//            }
-//            if (!Bus.isOwner)
-//            {
-//                getFromWifi(nextStart, Seg.getSeederAddr());
-//                continue;
-//            }
+            }
+            else
+            {
+                Log.d(TAG, "get from cellular");
+                getFromCellular(0);
+            }
 
         }
     }
@@ -155,6 +160,7 @@ public class RandomCell extends Thread {
 
 
     private void getFromWifi(int nextStart, String seederAddr) {
+        Log.d(TAG, "get from wifi " + String.valueOf(nextStart));
         Message msg = new Message();
         msg.setMessage(Bus.SYSTEM_MESSAGE+url+"~"+nextStart+"~"+Bus.clientAddr);
         msg.setCount(nextStart);

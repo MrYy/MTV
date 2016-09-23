@@ -46,6 +46,12 @@ public class MultiPullDispatcher implements Dispatcher {
                 }
 
                 break;
+            case Fragment:
+                Log.d(TAG, "receive fragment");
+                FileFragment ff = msg.getFragment();
+                IntegrityCheck.getInstance().insert(ff.getSegmentID(), ff, 0);
+
+                break;
         }
         Bus.getClients().add(mClient);
     }

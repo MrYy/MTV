@@ -145,8 +145,8 @@ public class Method {
 //                    }
 //                }
 
-                if (count != 0) Log.d(TAG, "接收的字节：" + String.valueOf(byteRead));
             }
+            Log.d(TAG, "接收的字节：" + String.valueOf(byteRead));
             if (byteRead > 0) {
                 buf.flip();
                 byte[] content = new byte[buf.limit()];
@@ -299,7 +299,9 @@ public class Method {
         return InetAddress.getByAddress(quads);
     }
     public static String printBuffermap(boolean[] buffermap) {
+
         String r = "";
+        if (buffermap == null) return r;
         for (int i =0;i<buffermap.length;i++) {
             if (buffermap[i]) r += "true ";
             else r += "false ";
