@@ -6,6 +6,7 @@ import com.example.yy.dashgraduationdesign.Entities.FileFragment;
 import com.example.yy.dashgraduationdesign.Entities.Message;
 import com.example.yy.dashgraduationdesign.Entities.SendTask;
 import com.example.yy.dashgraduationdesign.Integrity.IntegrityCheck;
+import com.example.yy.dashgraduationdesign.util.Method;
 
 import java.net.InetAddress;
 
@@ -48,6 +49,7 @@ public class TCPDispatcher implements Dispatcher {
                 break;
             case Fragment:
                 FileFragment ff = msg.getFragment();
+                Method.record(ff,"bt_oral","wifi interface");
                 Log.d("insert fragment", String.valueOf(ff.getSegmentID()) + " " + String.valueOf(ff.getStartIndex()));
 //                    Log.d("check integrity", String.valueOf(IntegrityCheck.getInstance().getSeg(ff.getSegmentID()).checkIntegrity()));
                 IntegrityCheck.getInstance().insert(ff.getSegmentID(), ff, 0);
