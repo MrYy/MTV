@@ -54,15 +54,16 @@ public class RandomCell extends Thread {
             //usually, 0 fragment should always download from server
             if (nextStart > 0){
                 if (IntegrityCheck.health > 0) {
-                    if (Seg.getSeederAddr().equals(""))
+                    if (Seg.getSeederAddr() == null || Seg.getSeederAddr().equals(""))
                     {
                         Seg.setSeederBuffermap(IntegrityCheck.seederAddrBackUp.get(IntegrityCheck.health),
                                 IntegrityCheck.seederBufferMapBackUp.get(IntegrityCheck.health));
                     }
                     Log.d(TAG, "seeder addr "+Seg.getSeederAddr());
-                    Log.d(TAG, "now check the buffer map.at "+String.valueOf(nextStart / Segment.FRAGMENT_LENGTH)
-                            +"  is  "+ String.valueOf(Seg.getSeederBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]));
-                        if (Seg.getSeederBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]) {
+//                    Log.d(TAG, "now check the buffer map.at "+String.valueOf(nextStart / Segment.FRAGMENT_LENGTH)
+//                            +"  is  "+ String.valueOf(Seg.getSeederBuffermap()[nextStart / Segment.FRAGMENT_LENGTH]));
+                    boolean[] seedBuff = Seg.getSeederBuffermap();
+                        if (seedBuff!=null && seedBuff.length>(nextStart / Segment.FRAGMENT_LENGTH) && seedBuff[nextStart / Segment.FRAGMENT_LENGTH]) {
                             if (!map.containsKey(nextStart)){
                                 map.put(nextStart, System.currentTimeMillis());
                                 getFromWifi(nextStart, Seg.getSeederAddr());
@@ -81,10 +82,12 @@ public class RandomCell extends Thread {
                     getFromCellular(nextStart);
                 }
             }
-            else
+            else if(nextStart > -2)
             {
                 Log.d(TAG, "get from cellular");
                 getFromCellular(0);
+            }else {
+
             }
             try {
                 TimeUnit.MILLISECONDS.sleep(100);

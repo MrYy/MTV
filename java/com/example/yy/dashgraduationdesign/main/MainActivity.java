@@ -65,8 +65,8 @@ public class MainActivity extends Activity {
         Spinner spinner = (Spinner) findViewById(R.id.Spinner_wifi_);
         ArrayList<String> list = new ArrayList();
         list.add("Ad-hoc");
-        list.add("Push-based");
-        list.add("Pull-based");
+        list.add("Simple BitTorrent");
+        list.add("MobileTorrent");
         spinner.setAdapter(new ArrayAdapter(this,android.R.layout.simple_spinner_item,list));
         spinner.setSelection(0);
     }

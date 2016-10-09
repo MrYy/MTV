@@ -184,6 +184,7 @@ public class Segment {
 	//get random next piece to download.
 	public synchronized int getNextPieceStart() {
 		if (buffermap==null) return -1;
+		if(numToDown == 0) return -2;
 		int nextToDown = random.nextInt(numToDown)+1;
 		int nextToDownStartIndex = 0;
 		for (int i =1;i<buffermap.length;i++) {
